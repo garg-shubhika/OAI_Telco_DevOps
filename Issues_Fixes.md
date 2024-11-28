@@ -3,6 +3,7 @@
 
 - Opened Webhook Request Content
 - Found the hash value in `pull_request.head.sha`
+- ![PR_COMMIT_SHA Webhook] (images/PR_COMMIT_SHA request content.png)
 
 ## 2. The Gitea was not getting reported back the build
 
