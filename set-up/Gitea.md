@@ -40,7 +40,10 @@ services:
       - "3000:3000"
       - "222:22"
     restart: always
+jenkins:
+  # ..... CONFIG.....
 ```
+
 
 ### 1.5 Start Gitea
 `docker-compose up -d`
