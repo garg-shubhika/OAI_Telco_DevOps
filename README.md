@@ -20,7 +20,7 @@ This folder contains installation steps and configuration guides for various com
 - [**`Jenkins.md`**](set-up/Jenkins.md): Provides steps for setting up Jenkins.
 - [**`Webhooks.md`**](set-up/Webhooks.md): Details the process for configuring webhooks.
 - [**`docker-networking.md`**](set-up/docker-networking.md): Describes the network setup for Gitea and Jenkins containers.
-- [**`Jenkins_Plugins.md`**](set-up/Jenkins_Plugins.md): Lists the Jenkins plugins installed.
+
 
 ### [`Files/`](Files/)
 This folder contains various scripts that were written as part of this assignment, including automation script.
