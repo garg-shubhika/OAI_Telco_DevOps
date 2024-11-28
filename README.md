@@ -10,7 +10,7 @@ This folder contains screenshots and a Markdown file with some details of the ou
 ### [`groovy_script/documentation/`](groovy_script/documentation/)
 This folder contains Markdown files that document the logic behind the `Jenkinsfile`. These files help explain the pipeline steps.
 
-### [`Issue_Fixes.md`](Issue_Fixes.md)
+### [`Issues_Fixes.md`](Issues_Fixes.md)
 This file documents the issues I encountered during the setup and the steps I took to resolve them. 
 
 ### [`set-up/`](set-up/)
