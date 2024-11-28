@@ -1,5 +1,5 @@
 
-1. The Dockerfile is located at: `[.Files/Dockerfile](Files/Dockerfile)`
+1. The Dockerfile is located at: `[Files/Dockerfile](../Files/Dockerfile)`
 2. We run the Jenkins using below command:
    
    `docker run --name jenkins-new1 -d \
