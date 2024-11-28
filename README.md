@@ -17,6 +17,7 @@ This file documents the issues I encountered during the setup and the steps I to
 This folder contains installation steps and configuration guides for various components used in the project:
 
 - [**`Gitea.md`**](set-up/Gitea.md): Provides steps for setting up Gitea.
+  [**`Jenkins.md`**](set-up/Jenkins.md): Provides steps for setting up Jenkins.
 - [**`Webhooks.md`**](set-up/Webhooks.md): Details the process for configuring webhooks.
 - [**`docker-networking.md`**](set-up/docker-networking.md): Describes the network setup for Gitea and Jenkins containers.
 - [**`Jenkins_Plugins.md`**](set-up/Jenkins_Plugins.md): Lists the Jenkins plugins installed.
