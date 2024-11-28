@@ -1,5 +1,14 @@
 # Set Up a Webhook in Gitea
 
+## Create Gitea Personal Access Token
+- Go to the Gitea repository
+- Select User Settings
+- Click on Application
+- Create the personal access token with a name 
+- Choose the permissions of Repository and Organization Access as Public
+- Provide read and write permissions and click on Generate token
+
+  
 ## Steps to Set Up a Webhook in Gitea to Trigger Jenkins
 
 - Go to Gitea repository
