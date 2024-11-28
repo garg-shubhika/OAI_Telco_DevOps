@@ -23,5 +23,9 @@
 
 6. Initial setup
    The following parameters were used to configure Jenkins, the pipeline and the connection to Gitea.
+   ![Pipeline configuration](..images/jenkins_pipeline_config_generic-webhook-trigger.png)
+   ![Pipeline configuration](..images/jenkins_pipeline_config_SCM)
 
+   [Jenkins_Plugins.md](Jenkins_Plugins)
+   
    
