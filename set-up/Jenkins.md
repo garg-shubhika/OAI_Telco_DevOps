@@ -26,6 +26,6 @@
    ![Pipeline configuration](..images/jenkins_pipeline_config_generic-webhook-trigger.png)
    ![Pipeline configuration](..images/jenkins_pipeline_config_SCM)
 
-   [Jenkins_Plugins.md](Jenkins_Plugins)
+   [Jenkins_Plugins.md](/Jenkins_Plugins)
    
    
