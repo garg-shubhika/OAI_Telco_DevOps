@@ -40,7 +40,7 @@ services:
       - "3000:3000"
       - "222:22"
     restart: always
-jenkins:
+  jenkins:
   # ..... CONFIG.....
 ```
 
