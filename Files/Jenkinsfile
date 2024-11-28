@@ -1,0 +1,180 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'PR_COMMIT_SHA', defaultValue: '', description: 'The commit SHA for the PR')
+        string(name: 'BASE_BRANCH', defaultValue: '', description: 'The base branch of the PR (e.g., master)')
+    }
+
+    triggers {
+        GenericTrigger(
+            genericVariables: [
+                [key: 'PR_COMMIT_SHA', value: '$.pull_request.head.sha'],
+                [key: 'BASE_BRANCH', value: '$.pull_request.base.ref']
+            ],
+            causeString: 'Triggered by Gitea PR',
+            token: env.GITEA_TOKEN,  
+            printContributedVariables: true,
+            printPostContent: true
+        )
+    }
+
+    stages {
+        stage('Debug Input Parameters') {
+            steps {
+                script {
+                    echo "DEBUG: Pipeline parameters received:"
+                    echo "PR_COMMIT_SHA: ${params.PR_COMMIT_SHA}"
+                    echo "BASE_BRANCH: ${params.BASE_BRANCH}"
+
+                    if (!params.PR_COMMIT_SHA || !params.BASE_BRANCH) {
+                        error "One or more required parameters are missing! Check PR_COMMIT_SHA and BASE_BRANCH."
+                    }
+                }
+            }
+        }
+
+        stage('Checkout Code') {
+            steps {
+                script {
+                    echo "DEBUG: Starting Checkout Code stage."
+                    echo "BASE_BRANCH: ${params.BASE_BRANCH}"
+                    if (params.BASE_BRANCH != 'master') {
+                        error "This PR is not targeting the master branch. Exiting pipeline."
+                    }
+                    
+                    echo "Checking out the PR commit: ${params.PR_COMMIT_SHA}"
+                    try {
+                        sh "git checkout ${params.PR_COMMIT_SHA}"
+                    } catch (Exception e) {
+                        echo "DEBUG: Error during git checkout: ${e.message}"
+                        error "Git checkout failed."
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    echo "DEBUG: Starting Build stage."
+                    echo "Building the PR targeting branch: ${params.BASE_BRANCH}"
+
+                    try {
+                        // Simulate build step
+                        echo "DEBUG: Listing workspace contents."
+                        sh "ls -l ${env.WORKSPACE}"
+                        // Uncomment below line for an actual build step
+                        // sh "./build.sh"
+                        sh "docker --version"
+                        sh "sudo docker run hello-world"
+                        sh "sudo docker build --no-cache -t oai-nrf:latest -f docker/Dockerfile.nrf.ubuntu ."
+                    } catch (Exception e) {
+                        echo "DEBUG: Build step failed: ${e.message}"
+                        error "Build failed."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                echo "DEBUG: Post-build success steps starting."
+                try {
+                    sendGiteaStatus('SUCCESS', 'Build succeeded', params.PR_COMMIT_SHA)
+                } catch (Exception e) {
+                    echo "DEBUG: Failed to send success status to Gitea: ${e.message}"
+                }
+                
+                def buildStatusHtml = """
+                    <html>
+                        <head><title>OAI Build Status</title></head>
+                        <body>
+                            <h1>Build Status: SUCCESS</h1>
+                            <p>The build for commit <strong>${params.PR_COMMIT_SHA}</strong> succeeded.</p>
+                        </body>
+                    </html>
+                """
+                writeFile file: 'index.html', text: buildStatusHtml
+
+                try {
+                    publishHTML(target: [
+                        reportName: 'Build Status',
+                        reportDir: "${env.WORKSPACE}",
+                        reportFiles: 'index.html',
+                        keepAll: false
+                    ])
+                } catch (Exception e) {
+                    echo "DEBUG: Failed to publish HTML report: ${e.message}"
+                }
+            }
+        }
+        failure {
+            script {
+                echo "DEBUG: Post-build failure steps starting."
+                try {
+                    sendGiteaStatus('FAILURE', 'Build failed', params.PR_COMMIT_SHA)
+                } catch (Exception e) {
+                    echo "DEBUG: Failed to send failure status to Gitea: ${e.message}"
+                }
+
+                def buildStatusHtml = """
+                    <html>
+                        <head><title>OAI Build Status</title></head>
+                        <body>
+                            <h1>Build Status: FAILURE</h1>
+                            <p>The build for commit <strong>${params.PR_COMMIT_SHA}</strong> failed.</p>
+                        </body>
+                    </html>
+                """
+                writeFile file: 'index.html', text: buildStatusHtml
+
+                try {
+                    publishHTML(target: [
+                        reportName: 'Build Status',
+                        reportDir: "${env.WORKSPACE}",
+                        reportFiles: 'index.html',
+                        keepAll: false
+                    ])
+                } catch (Exception e) {
+                    echo "DEBUG: Failed to publish HTML report: ${e.message}"
+                }
+            }
+        }
+    }
+}
+
+// Function to send status to Gitea API
+def sendGiteaStatus(String state, String description, String commitSha) {
+    if (!commitSha) {
+        error "Commit SHA is not provided!"
+    }
+
+    echo "DEBUG: Sending status to Gitea API for commit SHA: ${commitSha}"
+
+    def apiUrl = "http://172.18.0.2:3000/api/v1/repos/gargshubhika/oai-cn5g-nrf/statuses/${commitSha}"
+    def giteaToken = env.GITEA_TOKEN  // You can store this as an environment variable or in Jenkins credentials
+
+    try {
+        def response = httpRequest(
+            acceptType: 'APPLICATION_JSON',
+            contentType: 'APPLICATION_JSON',
+            url: apiUrl,
+            httpMode: 'POST',
+            customHeaders: [
+                [name: 'Authorization', value: "token ${giteaToken}"]
+            ],
+            requestBody: """{
+                "state": "${state}",
+                "description": "${description}",
+                "context": "CI/CD Pipeline"
+            }"""
+        )
+        echo "DEBUG: Gitea notification sent successfully. Response: ${response}"
+    } catch (Exception e) {
+        echo "DEBUG: Failed to send status to Gitea: ${e.message}"
+        error "Gitea notification failed."
+    }
+}
