@@ -1,6 +1,10 @@
 
 1. The Dockerfile is located at: [Files/Dockerfile](../Files/Dockerfile)
-2. We run the Jenkins using below command:
+2. Build the docker image
+   
+   `docker build  --no-cache -t jenkinsdockerfile .`
+   
+3. We run the Jenkins using below command:
    
    `docker run --name jenkins-new1 -d \
     -p 8070:8080 \
