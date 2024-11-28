@@ -36,3 +36,13 @@ URL: [http://localhost:3000/api/v1/repos/gargshubhika/oai-cn5g-nrf/statuses/HASH
     "context": "CI/CD Pipeline"
 }
 `
+## 6. Configuring Webhook Security in Gitea
+In the Terminal: 
+We go to the directory `gitea/gitea-data/gitea/conf$`
+
+`nano app.ini`
+
+We add the IP Address in `ALLOWED_HOST_LIST`:
+
+`[webhook]
+ALLOWED_HOST_LIST = 172.18.0.3, localhost, 127.0.0.1, 172.17.0.2`
