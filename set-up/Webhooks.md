@@ -18,3 +18,8 @@
 [http://JENKINS_SERVER:PORT/generic-webhook-trigger/invoke?token=ADD_GITEA_TOKEN](http://JENKINS_SERVER:PORT/generic-webhook-trigger/invoke?token=ADD_GITEA_TOKEN)
 - Select Custom Events: Check Pull Request
 - Save the webhook in Gitea
+
+
+## Webhook Response Example
+
+``{"jobs":{"oai-testing-pipeline":{"regexpFilterExpression":"","triggered":true,"resolvedVariables":{"BASE_BRANCH":"master","PR_COMMIT_SHA":"COMMIT_HASH_VALUE"},"regexpFilterText":"","id":47,"url":"queue/item/47/"}},"message":"Triggered jobs."}``
