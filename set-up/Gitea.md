@@ -1,6 +1,7 @@
 # Installation of Gitea
 
 Run the command, to check if the CPU supports avx2
+
 `lscpu | grep avx2`
 
 ## 1. Install Gitea in the docker
@@ -56,9 +57,11 @@ You can check the directory contents:
 
 ### 1.8 Get the IP address of the running Docker container
 `docker ps`
+
 `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' CONTAINER_ID`
 
 ### References
-[https://docs.gitea.com/installation/install-with-docker](https://docs.gitea.com/installation/install-with-docker)
+- [https://docs.gitea.com/installation/install-with-docker](https://docs.gitea.com/installation/install-with-docker)
+- [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
 
 
