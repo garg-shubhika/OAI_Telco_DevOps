@@ -4,8 +4,7 @@ USER root
 
 # Install Docker and sudo
 RUN apt-get update && \
-    apt-get install -y docker.io sudo cmake && \
-    #apt-get install cmake && \
+    apt-get install -y docker.io sudo && \
     apt-get clean
 
 # Add Jenkins user to the Docker group
