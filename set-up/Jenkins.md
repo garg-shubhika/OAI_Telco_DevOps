@@ -20,6 +20,15 @@
    
    ` docker network connect gitea_default e17c92353178`
 
+5. Access Jenkins using the below URL, and the username is `admin`
+   
+   [http://localhost:8070](http://localhost:8070)
+   
+6. To get the initial password, I ran the below command
+   
+   `docker exec -it CONTAINER_ID cat /var/jenkins_home/secrets/initialAdminPassword`
+
+   
 ## Initial setup
 
 Install the below plug-ins:
