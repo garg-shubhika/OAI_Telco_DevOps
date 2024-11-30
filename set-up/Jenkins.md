@@ -6,13 +6,13 @@
    
    
 3. We run the Jenkins using the below command:
-   
-   `docker run --name jenkins-new1 -d \
-    -p 8070:8080 \
-    -p 50000:50000 \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v jenkins_home:/var/jenkins_home \
-    jenkinsdockerfile
+`   
+docker run --name jenkins-new31 -d \
+-p 8070:8080 \
+-p 50000:50000 \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v jenkins_home:/var/jenkins_home \
+jenkinsdockerfilecurl
 `
 4. Connect the Jenkins container to our network:
    
